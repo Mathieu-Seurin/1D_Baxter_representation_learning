@@ -1,6 +1,4 @@
 local randomFactor = 20 -- For rep and prop priors
-require "lfs"
-lfs.mkdir("/path/to/dir")
 
 ---------------------------------------------------------------------------------------
 -- Function : images_Paths(path)

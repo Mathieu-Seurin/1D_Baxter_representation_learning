@@ -149,8 +149,6 @@ function train_Epoch(list_folders_images,list_txt,Log_Folder,use_simulate_images
 
             batch=getRandomBatch(imgs1,imgs2,txt1,txt2,BatchSize,"Rep")
             lossRep = lossRep + Rico_Training(models,'Rep',batch, coef_Rep,LR)
-
-
             
             xlua.progress(numBatch, totalBatch)
 
@@ -186,9 +184,15 @@ local list_folders_images, list_txt=Get_HeadCamera_HeadMvt()
 
 
 PRELOAD_FOLDER='./preload_folder/'
+
 if not file_exists(PRELOAD_FOLDER) then
    lfs.mkdir(PRELOAD_FOLDER)
 end
+
+if not file_exists(Log_Folder) then
+   lfs.mkdir(Log_Folder)
+end
+
 
 require('./models/convolutionnal')
 
