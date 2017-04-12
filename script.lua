@@ -184,7 +184,11 @@ local dataAugmentation=true
 local Log_Folder='./Log/'
 local list_folders_images, list_txt=Get_HeadCamera_HeadMvt()
 
+
 PRELOAD_FOLDER='./preload_folder/'
+if not file_exists(PRELOAD_FOLDER) then
+   lfs.mkdir(PRELOAD_FOLDER)
+end
 
 require('./models/convolutionnal')
 

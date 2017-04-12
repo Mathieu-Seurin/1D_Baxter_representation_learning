@@ -1,4 +1,6 @@
- function createModels()
+require "lfs"
+
+function createModels()
 
    if LOADING then
       print("Loading Model")
@@ -198,7 +200,7 @@ function scaleAndRandomCrop(imgs, length, height)
    end
    return imgs
 end
-   
+
 
 function dataAugmentation(im, mean, std)
    local channels = {'r','g','b'}
