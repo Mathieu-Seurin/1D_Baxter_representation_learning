@@ -234,9 +234,11 @@ end
 
 MODEL_PATH = 'Log/'
 
-MODEL_NAME, name = 'Save97Win/reprLearner1d.t7', '97'
+--MODEL_NAME, name = 'Save97Win/reprLearner1d.t7', '97'
 --MODEL_NAME,name = 'reprLearner1dWORKS.t7', 'works'
---MODEL_NAME,name = 'reprLearner1d.t7', 'shit2'
+
+MODEL_NAME,name = 'reprLearner1d.t7', 'default'
+-- if this doesn't exist, it means you didn't run 'script.lua'
 
 PATH_RAW_DATA = 'moreData/'
 PATH_PRELOAD_DATA = 'preload_folder/'
