@@ -167,7 +167,7 @@ function accuracy_reconstruction(X_test,y_test, model)
    for i=1,X_test:size(1) do
       acc = acc + math.sqrt(math.pow(yhat[i][1]-y_test[i],2))
    end
-   return acc
+   return acc/X_test:size(1)
 end
 
 
