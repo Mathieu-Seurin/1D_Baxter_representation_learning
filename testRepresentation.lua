@@ -3,6 +3,7 @@ require 'nn'
 require 'cutorch'
 require 'cunn'
 require 'optim'
+require 'xlua'
 
 require 'Get_Baxter_Files'
 require 'functions'
@@ -16,17 +17,29 @@ local function ReprFromImgs(imgs,name)
    end
    
    X = {}
+   print("Calculating all representation with this model\nNumber of sequence to calculate :"..#imgs)
+   xlua.progress(0, totalBatch)
+
    local model = torch.load(MODEL_PATH..MODEL_NAME)
    for numSeq,seq in ipairs(imgs) do
-      print("numSeq",numSeq)
       for i,img in ipairs(seq) do
          x = nn.utils.addSingletonDimension(img)
-         X[#X+1] = model:forward(x)[1]
+
+         X[#X+1] =  model:forward(x):view(-1)[1]
+         --tensor dimension can be 1x1 or 1,
+         -- with view, you deal with both, yeay.
+         
       end
+      xlua.progress(numSeq, #imgs)
    end
-   Xtemp = torch.Tensor(X)
+   
+   xTemp = torch.Tensor(X)
+
+   --Calculating mean and std
+   xTemp = (xTemp - xTemp:mean())/xTemp:std()
+   --Adding a second dimension
    X = torch.zeros(#X,1)
-   X[{{},1}] = Xtemp
+   X[{{},1}] = xTemp
    torch.save(fileName,X)
    return X
 end
@@ -234,11 +247,15 @@ end
 
 MODEL_PATH = 'Log/'
 
---MODEL_NAME, name = 'Save97Win/reprLearner1d.t7', '97'
---MODEL_NAME,name = 'reprLearner1dWORKS.t7', 'works'
-
-MODEL_NAME,name = 'reprLearner1d.t7', 'default'
+--===================== SELECT HERE THE MODEL YOU WANT =====================
+--MODEL_NAME, name = 'Save97Win/reprLearner1d.t7', '97' --                  Score : 14.5      loss : 0.0055
+MODEL_NAME,name = 'reprLearner1dWORKS.t7', 'works'    --                    Score : 74.3      loss : 0.08
+--MODEL_NAME,name = 'reprLearner1d.t7', 'default'       --Score :
 -- if this doesn't exist, it means you didn't run 'script.lua'
+
+--MODEL_NAME,name = 'AE_model.t7', 'auto' --                                Score : 71        loss : 0.19
+-- ===============================================================
+
 
 PATH_RAW_DATA = 'moreData/'
 PATH_PRELOAD_DATA = 'preload_folder/'
