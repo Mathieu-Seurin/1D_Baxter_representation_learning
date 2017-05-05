@@ -15,7 +15,7 @@ luarocks install image (without sudo)
 luarocks list (without sudo)
 ```
 
-Go to your Baxter_Learning folder :
+Go to your main folder :
 ```bash
 th
 dofile("script.lua")
