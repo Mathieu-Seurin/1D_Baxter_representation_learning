@@ -18,7 +18,7 @@ local function ReprFromImgs(imgs,name)
 
    X = {}
 
-   print("Calculating all representation with this model\nNumber of sequence to calculate :"..#imgs)
+   print("Calculating all representation with this model "..fileName.."\nNumber of sequences to calculate :"..#imgs)
    xlua.progress(0, #imgs)
 
    local model = torch.load(MODEL_PATH..MODEL_NAME)
@@ -248,11 +248,11 @@ end
 MODEL_PATH = 'Log/'
 
 --===================== SELECT HERE THE MODEL YOU WANT =====================
---MODEL_NAME, name = 'Save97Win/reprLearner1d.t7', '97' --                  Score : 14.5      loss : 0.0055
---MODEL_NAME,name = 'reprLearner1dWORKS.t7', 'works'    --                    Score : 74.3      loss : 0.08
-MODEL_NAME,name = 'reprLearner1d.t7', 'default'       --Score :
+--MODEL_NAME, name = 'Save97Win/reprLearner1d.t7', '97' --  Score : 14.5      loss : 0.0055
+--MODEL_NAME,name = 'reprLearner1dWORKS.t7', 'works'    --  Score : 74.3      loss : 0.08
+MODEL_NAME,name = 'reprLearner1d.t7', 'default'       --  Natalia gets:  Score (Test Acc:)Test accuracy = 	0.5058   loss : 0.1348
 -- if this doesn't exist, it means you didn't run 'script.lua'
---MODEL_NAME,name = 'AE_model.t7', 'auto' --                                Score : 71        loss : 0.19
+--MODEL_NAME,name = 'AE_model.t7', 'auto' --               Score : 71        loss : 0.19
 -- ===============================================================
 
 
