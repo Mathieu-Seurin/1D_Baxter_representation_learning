@@ -11,13 +11,17 @@ require 'functions'
 local function ReprFromImgs(imgs,name)
 
    local fileName = 'preload_folder/'..'allReprSaved'..name..'.t7'
-   
+
    if file_exists(fileName) then
       return torch.load(fileName)
-   end
-   
+    else
+       print('The model to preload does not exist: '..fileName..' Run script.lua first! ')
+       os.exit()
+    end
+
    X = {}
-   print("Calculating all representation with this model\nNumber of sequence to calculate :"..#imgs)
+   print("Calculating all representations with the model: "..fileName)
+   print("Number of sequences to calculate :"..#imgs..' totalBatch: '..totalBatch)
    xlua.progress(0, totalBatch)
 
    local model = torch.load(MODEL_PATH..MODEL_NAME)
@@ -28,11 +32,11 @@ local function ReprFromImgs(imgs,name)
          X[#X+1] =  model:forward(x):view(-1)[1]
          --tensor dimension can be 1x1 or 1,
          -- with view, you deal with both, yeay.
-         
+
       end
       xlua.progress(numSeq, #imgs)
    end
-   
+
    xTemp = torch.Tensor(X)
 
    --Calculating mean and std
@@ -49,7 +53,7 @@ local function HeadPosFromTxts(txts, isData)
    -- or y tensor, the label tensor, i need a flag just to tell if i need X or y
 
    --isData = true => X tensor      isData = false => y tensor
-   
+
    T = {}
    for l, txt in ipairs(txts) do
       truth = getTruth(txt)
@@ -83,7 +87,7 @@ local function RewardsFromTxts(txts)
          end
       end
    end
-   
+
    return torch.Tensor(y)
 end
 
@@ -96,7 +100,7 @@ local function RandomBatch(X,y,sizeBatch)
    for i=1,sizeBatch do
       local id=torch.random(1,numSeq)
       batch[{i,1}] = X[{id,1}]
-      y_temp[i] = y[id] 
+      y_temp[i] = y[id]
    end
 
    -- print("batch",batch)
@@ -105,7 +109,6 @@ local function RandomBatch(X,y,sizeBatch)
    batch = batch:cuda()
    y_temp = y_temp:cuda()
    return batch, y_temp
-   
 end
 
 function Rico_Training(model,batch,y,reconstruct, LR)
@@ -118,7 +121,7 @@ function Rico_Training(model,batch,y,reconstruct, LR)
    else
       criterion = nn.CrossEntropyCriterion():cuda()
    end
-   
+
    -- create closure to evaluate f(X) and df/dX
    local feval = function(x)
       -- just in case:
@@ -135,10 +138,10 @@ function Rico_Training(model,batch,y,reconstruct, LR)
 
       local grad = criterion:backward(yhat,y)
       model:backward(batch, grad)
-      
+
       return loss,gradParameters
    end
-   
+
    optimState={learningRate=LR}
    parameters, loss=optimizer(feval, parameters, optimState)
    return loss[1]
@@ -163,7 +166,7 @@ function accuracy_reconstruction(X_test,y_test, model)
 
    -- print("yhat",yhat[1][1],yhat[2][1],yhat[3][1],yhat[4][1],yhat[60][1])
    -- print("y",truth[1],truth[2],truth[3],truth[4],truth[60])
-   
+
    for i=1,X_test:size(1) do
       acc = acc + math.sqrt(math.pow(yhat[i][1]-y_test[i],2))
    end
@@ -204,11 +207,11 @@ function train(X,y, reconstruct)
    local splitTrainTest = 0.75
 
    local sizeTest = math.floor(numEx/nbList)
-   
+
    id_test = {{math.floor(numEx*splitTrainTest), numEx}}
    X_test = X[id_test]
    y_test = y[id_test]
-   
+
    id_train = {{1,math.floor(numEx*splitTrainTest)}}
    X_train = X[id_train]
    y_train = y[id_train]
@@ -252,7 +255,6 @@ MODEL_PATH = 'Log/'
 MODEL_NAME,name = 'reprLearner1dWORKS.t7', 'works'    --                    Score : 74.3      loss : 0.08
 --MODEL_NAME,name = 'reprLearner1d.t7', 'default'       --Score :
 -- if this doesn't exist, it means you didn't run 'script.lua'
-
 --MODEL_NAME,name = 'AE_model.t7', 'auto' --                                Score : 71        loss : 0.19
 -- ===============================================================
 
@@ -282,6 +284,8 @@ else
 end
 
 --X = HeadPosFromTxts(list_txt,true)
+print(#imgs..' images') --10(nbList?)  --print(imgs)  60 (SIZE_BATCH) FloatTensor of size: 3x200x200
+print(name)
 X = ReprFromImgs(imgs, name)
 
 NB_BATCH=math.floor(X:size(1)/SIZE_BATCH)
