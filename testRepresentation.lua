@@ -18,7 +18,7 @@ local function ReprFromImgs(imgs,name)
    
    X = {}
    print("Calculating all representation with this model\nNumber of sequence to calculate :"..#imgs)
-   xlua.progress(0, totalBatch)
+   xlua.progress(0, #imgs)
 
    local model = torch.load(MODEL_PATH..MODEL_NAME)
    for numSeq,seq in ipairs(imgs) do
