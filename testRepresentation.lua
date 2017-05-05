@@ -14,9 +14,6 @@ local function ReprFromImgs(imgs,name)
 
    if file_exists(fileName) then
       return torch.load(fileName)
-    else
-       print('The model to preload does not exist: '..fileName..' Run script.lua first! ')
-       os.exit()
     end
 
    X = {}
@@ -252,8 +249,8 @@ MODEL_PATH = 'Log/'
 
 --===================== SELECT HERE THE MODEL YOU WANT =====================
 --MODEL_NAME, name = 'Save97Win/reprLearner1d.t7', '97' --                  Score : 14.5      loss : 0.0055
-MODEL_NAME,name = 'reprLearner1dWORKS.t7', 'works'    --                    Score : 74.3      loss : 0.08
---MODEL_NAME,name = 'reprLearner1d.t7', 'default'       --Score :
+--MODEL_NAME,name = 'reprLearner1dWORKS.t7', 'works'    --                    Score : 74.3      loss : 0.08
+MODEL_NAME,name = 'reprLearner1d.t7', 'default'       --Score :
 -- if this doesn't exist, it means you didn't run 'script.lua'
 --MODEL_NAME,name = 'AE_model.t7', 'auto' --                                Score : 71        loss : 0.19
 -- ===============================================================
