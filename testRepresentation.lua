@@ -48,7 +48,6 @@ end
 local function HeadPosFromTxts(txts, isData)
    --Since i use this function for creating X tensor for debugging
    -- or y tensor, the label tensor, i need a flag just to tell if i need X or y
-
    --isData = true => X tensor      isData = false => y tensor
 
    T = {}
@@ -255,7 +254,7 @@ MODEL_NAME,name = 'reprLearner1d.t7', 'default'       --  Natalia gets:  Score (
 --MODEL_NAME,name = 'AE_model.t7', 'auto' --               Score : 71        loss : 0.19
 -- ===============================================================
 
-
+--NOTE: MAKE SURE YOU HAVE COPIED THIS DATA FOLDER INTO YOUR MAIN DIRECTORY
 PATH_RAW_DATA = 'moreData/'
 PATH_PRELOAD_DATA = 'preload_folder/'
 DATA = PATH_PRELOAD_DATA..'imgsCv1.t7'
