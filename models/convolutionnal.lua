@@ -29,6 +29,7 @@ function getModel()
 	Timnet:add(nn.SpatialConvolution(8*nbFilter, 1, 1, 1))
 	Timnet:add(nn.SpatialBatchNormalization(1)) 
 	Timnet:add(nn.ReLU())
+
 	Timnet:add(nn.View(100))                
 	Timnet:add(nn.Linear(100, 500))
 	Timnet:add(nn.ReLU())                    

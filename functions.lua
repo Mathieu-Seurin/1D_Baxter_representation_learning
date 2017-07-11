@@ -271,7 +271,6 @@ function saveMeanAndStdRepr(imgs, show, model)
    if show then
       w = image.display(image.lena()) -- with positional arguments mode
    end
-
    
    for s=1,#imgs do
       local imgs_test = imgs[s]
@@ -285,7 +284,7 @@ function saveMeanAndStdRepr(imgs, show, model)
             allRepr[#allRepr+1] = models.model1:forward(img:cuda()):float()
          end
          --====== Printing the state corresponding to the image =====
-         -- ====== don't forget to uncomment the line 'w = image ... " above
+         -- ====== don't forget to uncomment the line "w = image ... " above
          if show then
             image.display{image=img, win=w}
             print(allRepr[#allRepr][1])

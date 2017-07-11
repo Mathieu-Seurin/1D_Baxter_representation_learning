@@ -145,6 +145,7 @@ function train_Epoch(list_folders_images,list_txt,Log_Folder,use_simulate_images
             lossCaus = lossCaus + Rico_Training(models, 'Caus',batch, 1,LR)
 
             batch=getRandomBatch(imgs1,imgs2,txt1,txt2,BatchSize,"Prop")
+            print("batch",batch:size())
             lossProp = lossProp + Rico_Training(models, 'Prop',batch, coef_Prop,LR)
 
             batch=getRandomBatch(imgs1,imgs2,txt1,txt2,BatchSize,"Rep")
