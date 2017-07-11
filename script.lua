@@ -195,7 +195,7 @@ if not file_exists(Log_Folder) then
 end
 
 
-require('./models/convolutionnal')
+require('./models/convolutional')
 
 -- torch.manualSeed(42) -- This one is very tough, more than one epoch, and dies
 -- torch.manualSeed(1337)

@@ -138,7 +138,9 @@ end
 function preprocessing(imgs,meanStd)
    -- Calculate reformat imgs, mean and std for images in train set
    -- normalize train set and apply to test
-   
+   print('preprocessing(imgs,meanStd)')
+   print(imgs)
+   print(meanStd)
    imgs = scaleAndCrop(imgs)
    if not meanStd then
       mean, std = meanAndStd(imgs)
